@@ -49806,6 +49806,12 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
                 comment: '',
                 parent_id: 0
             },
+            comment_details_reply: {
+                author: '',
+                comment: '',
+                parent_id: 0
+            },
+            comment_data: {},
             alert_message: '',
             isReply: []
         };
@@ -49830,26 +49836,49 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
             var comment_id = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
             var index = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
 
-            if (this.comment_details.author == '' || this.comment_details.author == null || this.comment_details.author == ' ') {
-                this.alert_message = 'Your name is required';
-                $('#alertModal').modal('show');
-                return false;
-            }
+            if (this.isReply[comment_id]) {
+                if (this.comment_details_reply.author == '' || this.comment_details_reply.author == null || this.comment_details_reply.author == ' ') {
+                    this.alert_message = 'Your name is required';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
 
-            if (this.comment_details.comment == '' || this.comment_details.comment == null || this.comment_details.comment == ' ') {
-                this.alert_message = 'Your comment message is required';
-                $('#alertModal').modal('show');
-                return false;
-            }
-            if (comment_id != null) {
-                this.comment_details.parent_id = comment_id;
+                if (this.comment_details_reply.comment == '' || this.comment_details_reply.comment == null || this.comment_details_reply.comment == ' ') {
+                    this.alert_message = 'Your comment message is required';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
+                if (comment_id != null) {
+                    this.comment_details_reply.parent_id = comment_id;
+                } else {
+                    this.comment_details_reply.parent_id = 0;
+                }
+
+                this.comment_data = this.comment_details_reply;
             } else {
-                this.comment_details.parent_id = 0;
+                if (this.comment_details.author == '' || this.comment_details.author == null || this.comment_details.author == ' ') {
+                    this.alert_message = 'Your name is required';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
+
+                if (this.comment_details.comment == '' || this.comment_details.comment == null || this.comment_details.comment == ' ') {
+                    this.alert_message = 'Your comment message is required';
+                    $('#alertModal').modal('show');
+                    return false;
+                }
+                if (comment_id != null) {
+                    this.comment_details.parent_id = comment_id;
+                } else {
+                    this.comment_details.parent_id = 0;
+                }
+
+                this.comment_data = this.comment_details;
             }
 
-            axios.post('addComment/', this.comment_details).then(function (response) {
-                _this2.comment_details.author = '';
-                _this2.comment_details.comment = '';
+            axios.post('addComment/', this.comment_data).then(function (response) {
+                _this2.comment_data.author = '';
+                _this2.comment_data.comment = '';
                 Vue.set(_this2.isReply, comment_id, 0);
                 _this2.showComments();
             }).catch(function (errors) {
@@ -49997,8 +50026,8 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.comment_details.author,
-                              expression: "comment_details.author"
+                              value: _vm.comment_details_reply.author,
+                              expression: "comment_details_reply.author"
                             }
                           ],
                           staticClass: "form-control",
@@ -50006,14 +50035,14 @@ var render = function() {
                             type: "text",
                             placeholder: "Enter your name..."
                           },
-                          domProps: { value: _vm.comment_details.author },
+                          domProps: { value: _vm.comment_details_reply.author },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.comment_details,
+                                _vm.comment_details_reply,
                                 "author",
                                 $event.target.value
                               )
@@ -50026,20 +50055,22 @@ var render = function() {
                             {
                               name: "model",
                               rawName: "v-model",
-                              value: _vm.comment_details.comment,
-                              expression: "comment_details.comment"
+                              value: _vm.comment_details_reply.comment,
+                              expression: "comment_details_reply.comment"
                             }
                           ],
                           staticClass: "form-control mar-top",
                           attrs: { rows: "2", placeholder: "Add comment..." },
-                          domProps: { value: _vm.comment_details.comment },
+                          domProps: {
+                            value: _vm.comment_details_reply.comment
+                          },
                           on: {
                             input: function($event) {
                               if ($event.target.composing) {
                                 return
                               }
                               _vm.$set(
-                                _vm.comment_details,
+                                _vm.comment_details_reply,
                                 "comment",
                                 $event.target.value
                               )
@@ -50126,8 +50157,10 @@ var render = function() {
                                         {
                                           name: "model",
                                           rawName: "v-model",
-                                          value: _vm.comment_details.author,
-                                          expression: "comment_details.author"
+                                          value:
+                                            _vm.comment_details_reply.author,
+                                          expression:
+                                            "comment_details_reply.author"
                                         }
                                       ],
                                       staticClass: "form-control",
@@ -50136,7 +50169,7 @@ var render = function() {
                                         placeholder: "Enter your name..."
                                       },
                                       domProps: {
-                                        value: _vm.comment_details.author
+                                        value: _vm.comment_details_reply.author
                                       },
                                       on: {
                                         input: function($event) {
@@ -50144,7 +50177,7 @@ var render = function() {
                                             return
                                           }
                                           _vm.$set(
-                                            _vm.comment_details,
+                                            _vm.comment_details_reply,
                                             "author",
                                             $event.target.value
                                           )
@@ -50157,8 +50190,10 @@ var render = function() {
                                         {
                                           name: "model",
                                           rawName: "v-model",
-                                          value: _vm.comment_details.comment,
-                                          expression: "comment_details.comment"
+                                          value:
+                                            _vm.comment_details_reply.comment,
+                                          expression:
+                                            "comment_details_reply.comment"
                                         }
                                       ],
                                       staticClass: "form-control mar-top",
@@ -50167,7 +50202,7 @@ var render = function() {
                                         placeholder: "Add comment..."
                                       },
                                       domProps: {
-                                        value: _vm.comment_details.comment
+                                        value: _vm.comment_details_reply.comment
                                       },
                                       on: {
                                         input: function($event) {
@@ -50175,7 +50210,7 @@ var render = function() {
                                             return
                                           }
                                           _vm.$set(
-                                            _vm.comment_details,
+                                            _vm.comment_details_reply,
                                             "comment",
                                             $event.target.value
                                           )

@@ -27,8 +27,8 @@
                         </div>
                         <hr>
                         <div class="reply" v-if="isReply[comment.comment_id]">
-                            <input type="text" placeholder="Enter your name..." class="form-control" v-model="comment_details.author">
-                            <textarea class="form-control mar-top" v-model="comment_details.comment" rows="2" placeholder="Add comment..."></textarea>
+                            <input type="text" placeholder="Enter your name..." class="form-control" v-model="comment_details_reply.author">
+                            <textarea class="form-control mar-top" v-model="comment_details_reply.comment" rows="2" placeholder="Add comment..."></textarea>
                             <div class="mar-top clearfix">
                                 <button class="btn btn-sm btn-success pull-right" type="submit" @click="addComment(comment.comment_id, index)"><i class="fa fa-paper-plane fa-fw"></i> Submit</button>
                             </div>
@@ -48,8 +48,8 @@
                                     </button>
                                     <hr>
                                     <div class="reply" v-if="isReply[reply.comment_id]">
-                                        <input type="text" placeholder="Enter your name..." class="form-control" v-model="comment_details.author">
-                                        <textarea class="form-control mar-top" v-model="comment_details.comment" rows="2" placeholder="Add comment..."></textarea>
+                                        <input type="text" placeholder="Enter your name..." class="form-control" v-model="comment_details_reply.author">
+                                        <textarea class="form-control mar-top" v-model="comment_details_reply.comment" rows="2" placeholder="Add comment..."></textarea>
                                         <div class="mar-top clearfix">
                                             <button class="btn btn-sm btn-success pull-right" type="submit" @click="addComment(reply.comment_id, index2)"><i class="fa fa-paper-plane fa-fw"></i> Submit</button>
                                         </div>
@@ -103,6 +103,12 @@
                     comment: '',
                     parent_id: 0
                 },
+                comment_details_reply: {
+                    author: '',
+                    comment: '',
+                    parent_id: 0
+                },
+                comment_data: {},
                 alert_message: '',
                 isReply: []
             }
@@ -119,31 +125,63 @@
                 });
             },
             addComment(comment_id = null, index = null){
-                if(this.comment_details.author == '' || this.comment_details.author == null || this.comment_details.author == ' ')
+                if(this.isReply[comment_id])
                 {
-                    this.alert_message = 'Your name is required';
-                    $('#alertModal').modal('show');
-                    return false;
-                }
+                    if(this.comment_details_reply.author == '' || this.comment_details_reply.author == null || this.comment_details_reply.author == ' ')
+                    {
+                        this.alert_message = 'Your name is required';
+                        $('#alertModal').modal('show');
+                        return false;
+                    }
 
-                if(this.comment_details.comment == '' || this.comment_details.comment == null || this.comment_details.comment == ' ')
-                {
-                    this.alert_message = 'Your comment message is required';
-                    $('#alertModal').modal('show');
-                    return false;
-                }
-                if(comment_id != null)
-                {
-                    this.comment_details.parent_id = comment_id;
+                    if(this.comment_details_reply.comment == '' || this.comment_details_reply.comment == null || this.comment_details_reply.comment == ' ')
+                    {
+                        this.alert_message = 'Your comment message is required';
+                        $('#alertModal').modal('show');
+                        return false;
+                    }
+                    if(comment_id != null)
+                    {
+                        this.comment_details_reply.parent_id = comment_id;
+                    }
+                    else
+                    {
+                        this.comment_details_reply.parent_id = 0;
+                    }
+
+                    this.comment_data = this.comment_details_reply;
                 }
                 else
                 {
-                    this.comment_details.parent_id = 0;
+                    if(this.comment_details.author == '' || this.comment_details.author == null || this.comment_details.author == ' ')
+                    {
+                        this.alert_message = 'Your name is required';
+                        $('#alertModal').modal('show');
+                        return false;
+                    }
+
+                    if(this.comment_details.comment == '' || this.comment_details.comment == null || this.comment_details.comment == ' ')
+                    {
+                        this.alert_message = 'Your comment message is required';
+                        $('#alertModal').modal('show');
+                        return false;
+                    }
+                    if(comment_id != null)
+                    {
+                        this.comment_details.parent_id = comment_id;
+                    }
+                    else
+                    {
+                        this.comment_details.parent_id = 0;
+                    }
+
+                    this.comment_data = this.comment_details;
                 }
 
-                axios.post('addComment/', this.comment_details).then((response) => {
-                    this.comment_details.author = '';
-                    this.comment_details.comment = '';
+
+                axios.post('addComment/', this.comment_data).then((response) => {
+                    this.comment_data.author = '';
+                    this.comment_data.comment = '';
                     Vue.set(this.isReply, comment_id, 0);
                     this.showComments();
                 }).catch((errors) => {

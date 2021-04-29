@@ -3,7 +3,7 @@
 Simple Comment System Using Laravel and Vuejs
 
 - Submit your comment with your name and comment message is required.
-- Can reply to the existing comment up to 3 levels.
+- Can reply to the existing comment up to 3 layers.
 
 ## Installation Guide
 
