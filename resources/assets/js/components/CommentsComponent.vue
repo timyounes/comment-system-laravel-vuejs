@@ -93,7 +93,6 @@
     </div> 
 </template>
 <script>
-    
     export default {
         props: ['comment_id', 'author', 'comment', 'parent_id', 'created_datetime'],
         data(){

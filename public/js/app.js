@@ -49796,7 +49796,6 @@ Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
 //
 //
 
-
 /* harmony default export */ __webpack_exports__["default"] = ({
     props: ['comment_id', 'author', 'comment', 'parent_id', 'created_datetime'],
     data: function data() {
