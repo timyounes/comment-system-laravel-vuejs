@@ -18,7 +18,7 @@ Enter in the project directory
 cd comment-system-laravel-vuejs
 ```
 
-Install composer and node modules
+Install composer and nodejs modules
 ```
 composer install
 npm install
