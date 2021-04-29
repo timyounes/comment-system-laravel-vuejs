@@ -50,6 +50,11 @@ Start your project running
 ```
 php artisan serve
 ```
+
+Testing Project just run this command
+```
+./vendor/bin/phpunit
+```
 ## License
 
 The Project is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
