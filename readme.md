@@ -7,23 +7,23 @@ Simple Comment System Using Laravel and Vuejs
 
 ## Installation Guide
 
-	Cloning project to you local machine
+Cloning project to you local machine
 ```
 	git clone https://github.com/timyounes/comment-system-laravel-vuejs.git
 ```
-	Or you can download as zip and extract to your preferred directory
+Or you can download as zip and extract to your preferred directory
 
-	Enter in the project directory
+Enter in the project directory
 ```
 	cd comment-system-laravel-vuejs
 ```
 
-	Install composer and node modules
+Install composer and node modules
 ```
 	composer install
 	npm install
 ```
-	Rename .env.example to .env and update the specific variables value based on your database set up
+Rename .env.example to .env and update the specific variables value based on your database set up
 ```
 	DB_CONNECTION=mysql
 	DB_HOST=127.0.0.1
@@ -33,18 +33,18 @@ Simple Comment System Using Laravel and Vuejs
 	DB_PASSWORD=db_password
 ```
 
-	Run the following artisan commands
+Run the following artisan commands
 ```
 	php artisan key:generate
 	php artisan migrate
 ```
 
-	Compile your project by running
+Compile your project by running
 ```
 	npm run dev
 ```
 
-	Start your project running
+Start your project running
 ```
 	php artisan serve
 ```
