@@ -7,7 +7,7 @@ Simple Comment System Using Laravel and Vuejs
 
 ## Installation Guide
 
-Cloning project to you local machine
+Cloning project to your local machine
 ```
 	git clone https://github.com/timyounes/comment-system-laravel-vuejs.git
 ```
